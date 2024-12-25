@@ -10,12 +10,16 @@ The application is built to meet real-world use cases, ensuring scalability, mai
 
 Team Management:
 - Create, update, delete, and view teams.
+  
 Player Management:
 - Add, update, delete, and view players with detailed stats.
+  
 Match Management:
 - Schedule matches, record results, and generate match reports.
+  
 Dashboard:
 - View key statistics, such as team performance and match history.
+
 Authentication and Role Management:
 - Role-based access control for administrators and coaches.
 
@@ -38,9 +42,12 @@ The project follows the Onion Architecture to ensure clear separation of concern
 
 Domain Layer:
 - Core business logic and entities, including Team, Player, and Match.
+  
 Application Layer:
 - Application-specific services for managing data and business operations.
+  
 Infrastructure Layer:
 - Database and external service integrations.
+
 API Layer:
 - Exposes RESTful APIs for frontend integration.
