@@ -1,12 +1,12 @@
 # Team Management System 
 
-###Project Overview
+### Project Overview
 
 The Team Management System is a web-based application designed to help football clubs manage their teams, players, and matches effectively. The platform allows administrators to organize teams, track player performance, and schedule matches with an intuitive interface and robust backend functionality.
 
 The application is built to meet real-world use cases, ensuring scalability, maintainability, and ease of use. It employs modern web development practices and follows professional software design principles.
 
-###Key Features
+### Key Features
 
 Team Management:
 - Create, update, delete, and view teams.
