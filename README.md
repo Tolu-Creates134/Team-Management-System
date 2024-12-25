@@ -10,10 +10,8 @@ The application is built to meet real-world use cases, ensuring scalability, mai
 
 Team Management:
 - Create, update, delete, and view teams.
-
 Player Management:
 - Add, update, delete, and view players with detailed stats.
-  
 Match Management:
 - Schedule matches, record results, and generate match reports.
 Dashboard:
@@ -21,7 +19,7 @@ Dashboard:
 Authentication and Role Management:
 - Role-based access control for administrators and coaches.
 
-Technologies Used
+### Technologies Used
 
 Frontend:
 - React.js (UI development, component-based architecture).
@@ -33,3 +31,16 @@ Backend:
   
 Database:
 SQL Server (relational database for structured data).
+
+### Architectural Approach
+
+The project follows the Onion Architecture to ensure clear separation of concerns and maintainability:
+
+Domain Layer:
+- Core business logic and entities, including Team, Player, and Match.
+Application Layer:
+- Application-specific services for managing data and business operations.
+Infrastructure Layer:
+- Database and external service integrations.
+API Layer:
+- Exposes RESTful APIs for frontend integration.
