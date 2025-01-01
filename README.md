@@ -14,12 +14,14 @@ Match Management:
   
 Dashboard:
 - View key statistics, such as team performance and match history.
+  
 Authentication and Role Management:
 - Role-based access control for administrators and coaches.
 ### Technologies Used
 Frontend:
 - React.js (UI development, component-based architecture).
 - Material UI (for responsive and modern styling).
+  
 Backend:
 - C# (ASP.NET Core Web API).
 - Entity Framework Core (database interaction and migrations).
@@ -28,6 +30,7 @@ Database:
 SQL Server (relational database for structured data).
 ### Architectural Approach
 The project follows the Onion Architecture to ensure clear separation of concerns and maintainability:
+
 Domain Layer:
 - Core business logic and entities, including Team, Player, and Match.
   
@@ -36,5 +39,6 @@ Application Layer:
   
 Infrastructure Layer:
 - Database and external service integrations.
+
 API Layer:
 - Exposes RESTful APIs for frontend integration.
