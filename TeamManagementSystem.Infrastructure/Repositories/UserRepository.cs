@@ -1,6 +1,11 @@
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using TeamManagementSystem.Application.DTOs;
 using TeamManagementSystem.Application.Interfaces;
 using TeamManagementSystem.Domain.Models;
@@ -13,8 +18,11 @@ public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _appDbContext;
 
-    public UserRepository(AppDbContext appDbContext) {
+    private readonly IConfiguration _configuration;
+
+    public UserRepository(AppDbContext appDbContext, IConfiguration configuration) {
         _appDbContext = appDbContext;
+        _configuration = configuration;
     }
 
     public async Task<LoginResponse> LoginUserAsync(LoginDTO loginDTO)
@@ -35,10 +43,34 @@ public class UserRepository : IUserRepository
         }
     }
 
+    private string GenerateJWTToken(UserEntity user)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var userClaims = new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.FirstName!),
+            new Claim(ClaimTypes.Name, user.LastName!),   
+            new Claim(ClaimTypes.Email, user.Email!),
+        };
+
+        var token = new JwtSecurityToken(
+            issuer: _configuration["Jwt:Issuer"],
+            audience: _configuration["Jwt:Audience"],
+            claims: userClaims,
+            expires: DateTime.Now.AddDays(5),
+            signingCredentials: credentials
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
     private async Task<UserEntity?> FindUserByEmail(string email) {
         return await _appDbContext.Users!.FirstOrDefaultAsync(u => u.Email == email);
     }
-
+    
     public async Task<RegistrationResponse> RegisterUserAsync(RegisterUserDTO registerUserDTO)
     {
         var getUser = await FindUserByEmail(registerUserDTO.Email!);

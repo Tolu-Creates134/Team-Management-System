@@ -14,10 +14,10 @@ public class RegisterUserDTO
     [Required]
     public string? UserName { get; set;}
 
-    [Required]
+    [Required, EmailAddress]
     public string? Email { get; set;}
 
-    [Required]
+    [Required, MinLength(6)]
     public string? Password { get; set;}
 
     [Required, Compare(nameof(Password))]
@@ -26,9 +26,14 @@ public class RegisterUserDTO
     [Required]
     public string? Role { get; set;}
 
-    [Required]
-    public string? CreatedDate { get; set;}
+    public DateTime? CreatedDate { get; set;}
 
-    [Required]
-    public string? UpdatedDate { get; set;}
+    public DateTime? UpdatedDate { get; set;}
+}
+
+public enum UserRole
+{
+    Admin,
+    Coach,
+    Player
 }

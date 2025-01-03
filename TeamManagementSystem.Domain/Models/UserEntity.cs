@@ -41,7 +41,7 @@ public class UserEntity
     public string? LastName { get; private set; }
 
     [Column(TypeName = "varchar(50)")]
-    public string? UserName { get;}
+    public string? UserName { get; private set;}
 
     [Column(TypeName = "varchar(50)")]
     public string? Role { get; private set; }

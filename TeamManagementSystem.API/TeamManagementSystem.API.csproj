@@ -12,9 +12,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="7.2.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../TeamManagement.Application/TeamManagementSystem.Application.csproj" />
     <ProjectReference Include="../TeamManagementSystem.Infrastructure/TeamManagementSystem.Infrastructure.csproj" />
   </ItemGroup>
 
