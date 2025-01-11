@@ -1,10 +1,12 @@
 using System;
 using System.Text;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using TeamManagementSystem.Application.Common.Authentication;
 using TeamManagementSystem.Application.Interfaces;
 using TeamManagementSystem.Infrastructure.Data;
 using TeamManagementSystem.Infrastructure.Repositories;
@@ -40,6 +42,7 @@ public static class DepedencyInjection
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IAuthenticate, Authenticate>();
 
         return services;
     }

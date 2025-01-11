@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.Extensions.DependencyInjection;
+using static TeamManagementSystem.Application.DependencyInjection;
 using static TeamManagementSystem.Infrastructure.DepedencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddApplicationDI();
 builder.Services.AddInfrastructureDI(builder.Configuration);
 
 builder.Services.AddControllers();

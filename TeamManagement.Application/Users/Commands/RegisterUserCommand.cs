@@ -1,9 +1,11 @@
 using System;
+using MediatR;
+using TeamManagementSystem.Application.DTOs;
 using System.ComponentModel.DataAnnotations;
 
-namespace TeamManagementSystem.Application.DTOs;
+namespace TeamManagementSystem.Application.Users.Commands;
 
-public class RegisterUserDTO
+public class RegisterUserCommand : IRequest<RegistrationResponse>
 {
     [Required]
     public string? FirstName { get; set;}
@@ -29,11 +31,4 @@ public class RegisterUserDTO
     public DateTime? CreatedDate { get; set;}
 
     public DateTime? UpdatedDate { get; set;}
-}
-
-public enum UserRole
-{
-    Admin,
-    Coach,
-    Player
 }
