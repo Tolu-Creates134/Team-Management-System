@@ -6,7 +6,6 @@ namespace TeamManagementSystem.Domain.Models;
 
 public class UserEntity
 {
-
     public UserEntity (
         Guid id,
         string? firstName,

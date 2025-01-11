@@ -1,4 +1,3 @@
-using System;
 using MediatR;
 using TeamManagementSystem.Application.Common.Authentication;
 using TeamManagementSystem.Application.DTOs;
@@ -41,21 +40,6 @@ public class RegisterUserCommandHander : IRequestHandler<RegisterUserCommand, Re
         );
 
         await _userRepository.AddUserAsync(newUser);
-
-        // _appDbContext.Users!.Add(new UserEntity(
-        //     Guid.NewGuid(),
-        //     registerUserDTO.FirstName,
-        //     registerUserDTO.LastName,
-        //     registerUserDTO.UserName,
-        //     registerUserDTO.Role,
-        //     null,
-        //     DateTime.UtcNow,
-        //     null,
-        //     BCrypt.Net.BCrypt.HashPassword(registerUserDTO.Password),
-        //     registerUserDTO.Email
-        // ));
-
-        // await _appDbContext.SaveChangesAsync();
 
         return new RegistrationResponse(true, "Registration Completed.", newUser);
     }
