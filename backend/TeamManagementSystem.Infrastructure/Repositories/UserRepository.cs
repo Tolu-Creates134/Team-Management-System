@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using TeamManagementSystem.Application.Interfaces;
 using TeamManagementSystem.Domain.Models;
-using TeamManagementSystem.Infrastructure.Data;
+using TeamManagementSystem.Infrastructure.Configurations;
 
 
 namespace TeamManagementSystem.Infrastructure.Repositories;
@@ -20,7 +19,7 @@ public class UserRepository : IUserRepository
         return await _appDbContext.Users!.FirstOrDefaultAsync(u => u.Email == email);
     }
 
-    public async  Task AddUserAsync(UserEntity user)
+    public async Task AddUserAsync(UserEntity user)
     {
         await _appDbContext.Users!.AddAsync(user);
         await _appDbContext.SaveChangesAsync();

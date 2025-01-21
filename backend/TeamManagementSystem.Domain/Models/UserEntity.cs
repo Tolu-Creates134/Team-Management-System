@@ -1,5 +1,3 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeamManagementSystem.Domain.Models;
@@ -58,5 +56,8 @@ public class UserEntity
 
     [Column(TypeName = "varchar(255)")]
     public string? Email { get; private set; }
+
+    // Navigation property for related Teams
+    public ICollection<TeamEntity>? Teams { get; set; }
 
 }

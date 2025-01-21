@@ -16,4 +16,9 @@
     <ProjectReference Include="../TeamManagementSystem.Domain/TeamManagementSystem.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Teams/" />
+    <Folder Include="Teams/DTOs/" />
+  </ItemGroup>
+
 </Project>
