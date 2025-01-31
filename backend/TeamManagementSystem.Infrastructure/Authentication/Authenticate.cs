@@ -29,9 +29,11 @@ public class Authenticate : IAuthenticate
         var userClaims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.FirstName!),
-            new Claim(ClaimTypes.Name, user.LastName!),   
+            new Claim(ClaimTypes.GivenName, user.FirstName!),
+            new Claim(ClaimTypes.Surname, user.LastName!),   
             new Claim(ClaimTypes.Email, user.Email!),
+            new Claim(ClaimTypes.Name, user.UserName!),
+            new Claim(ClaimTypes.Role, user.Role!)
         };
 
         var token = new JwtSecurityToken(

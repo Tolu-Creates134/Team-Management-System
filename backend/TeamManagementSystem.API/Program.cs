@@ -17,6 +17,8 @@ builder.Services.AddInfrastructureDI(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
+
 
 var app = builder.Build();
 
@@ -39,8 +41,3 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata.Ecma335;
 
 namespace TeamManagementSystem.Domain.Models;
 
@@ -6,11 +7,11 @@ public class TeamEntity
 {
     public TeamEntity (
         Guid id,
-        string name,
-        string coachName,
-        Guid ownerId,
-        string teamLogo,
-        bool isRegistered
+        string name, // Team name 
+        string coachName, // Name of the user creating the team
+        Guid ownerId, // Id of the user creating the Team
+        string teamLogo, // Team logo converted into a string
+        bool isRegistered // Boolean of whether the team is a registred team or opposition team (false)
     )
     {
         Id = id;

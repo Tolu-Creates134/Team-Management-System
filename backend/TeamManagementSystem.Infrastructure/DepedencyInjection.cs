@@ -5,7 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using TeamManagementSystem.Application.Common.Authentication;
+using TeamManagementSystem.Application.Common.CurrentUser;
 using TeamManagementSystem.Application.Interfaces;
+using TeamManagementSystem.Infrastructure.Authentication;
 using TeamManagementSystem.Infrastructure.Configurations;
 using TeamManagementSystem.Infrastructure.Repositories;
 
@@ -41,6 +43,7 @@ public static class DepedencyInjection
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAuthenticate, Authenticate>();
+        services.AddScoped<ICurrentUser, CurrentUser>();
 
         return services;
     }
