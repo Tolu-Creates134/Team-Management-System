@@ -1,4 +1,4 @@
-using TeamManagementSystem.Domain.Models;
+using TeamManagementSystem.Domain.Models.Team;
 
 namespace TeamManagementSystem.Application.Teams.DTOs;
 

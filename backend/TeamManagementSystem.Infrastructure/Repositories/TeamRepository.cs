@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TeamManagementSystem.Domain.Interfaces;
-using TeamManagementSystem.Domain.Models;
+using TeamManagementSystem.Domain.Models.Team;
 using TeamManagementSystem.Infrastructure.Configurations;
 
 namespace TeamManagementSystem.Infrastructure.Repositories;

@@ -1,17 +1,22 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TeamManagementSystem.Domain.Models;
+using TeamManagementSystem.Infrastructure.Configurations;
 
 namespace TeamManagementSystem.Application.Common.Authentication;
 public class Authenticate : IAuthenticate
 {
     private readonly IConfiguration _configuration;
 
-    public Authenticate(IConfiguration configuration) {
+    private readonly AppDbContext _appDbContext;
+
+    public Authenticate(IConfiguration configuration, AppDbContext appDbContext) {
         _configuration = configuration;
+        _appDbContext = appDbContext;
     }
 
     public bool checkPassword(string loginPassword, string DBPassword)
@@ -19,6 +24,11 @@ public class Authenticate : IAuthenticate
         bool checkPassword = BCrypt.Net.BCrypt.Verify(loginPassword, DBPassword);
 
         return checkPassword;
+    }
+
+    public string generateRefreshtoken()
+    {
+        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     }
 
     public string generateToken(UserEntity user)
@@ -36,7 +46,7 @@ public class Authenticate : IAuthenticate
             new Claim(ClaimTypes.Role, user.Role!)
         };
 
-        var token = new JwtSecurityToken(
+        var tokenDescriptor = new JwtSecurityToken(
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: userClaims,
@@ -44,7 +54,13 @@ public class Authenticate : IAuthenticate
             signingCredentials: credentials
         );
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+    }
+
+    public async Task addRefreshToken (RefreshTokenEntity refreshToken)
+    {
+        _appDbContext.Refreshtokens!.Add(refreshToken);
+        await _appDbContext.SaveChangesAsync();
     }
 
     public string hashPassword(string password)

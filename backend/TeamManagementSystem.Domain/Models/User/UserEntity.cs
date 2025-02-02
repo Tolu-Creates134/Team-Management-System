@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using TeamManagementSystem.Domain.Models.Team;
 
 namespace TeamManagementSystem.Domain.Models;
 

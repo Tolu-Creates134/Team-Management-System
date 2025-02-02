@@ -9,4 +9,8 @@ public interface IAuthenticate
     bool checkPassword(string loginPasword, string DBPassword);
 
     string hashPassword(string password);
+
+    string generateRefreshtoken();
+
+    Task addRefreshToken (RefreshTokenEntity refreshToken);
 }

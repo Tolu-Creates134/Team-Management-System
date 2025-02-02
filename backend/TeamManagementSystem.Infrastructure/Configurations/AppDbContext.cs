@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TeamManagementSystem.Domain.Models;
+using TeamManagementSystem.Domain.Models.Team;
 
 namespace TeamManagementSystem.Infrastructure.Configurations;
 
@@ -9,8 +10,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<UserEntity>? Users { get; set; }
     public DbSet<TeamEntity>? Teams { get; set; }
 
+    public DbSet<RefreshTokenEntity>? Refreshtokens { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppContext).Assembly);
+
         base.OnModelCreating(modelBuilder);
 
         // Configure primary key for user   

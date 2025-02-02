@@ -1,10 +1,21 @@
-using System;
 using MediatR;
 using TeamManagementSystem.Application.Common.Authentication;
 using TeamManagementSystem.Application.DTOs;
 using TeamManagementSystem.Application.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using TeamManagementSystem.Domain.Models;
+
 
 namespace TeamManagementSystem.Application.Users.Commands;
+
+public class LoginUserCommand : IRequest<LoginResponse>
+{
+    [Required, EmailAddress]
+    public string Email { get; set;} = string.Empty;
+    
+    [Required]
+    public string Password { get; set;} = string.Empty;
+}
 
 public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginResponse>
 {
@@ -25,13 +36,22 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginRe
             return new LoginResponse ( false, "User does not exist, please try again with correct details.");
         }
 
-        //bool checkPassword = BCrypt.Net.BCrypt.Verify(loginDTO.Password, getUser.PasswordHash);
-
         bool verifyPassword = _authenticate.checkPassword(request.Password, getUser.PasswordHash!);
 
+        string accessToken = _authenticate.generateToken(getUser);
+
+        var refreshToken = new RefreshTokenEntity
+        {
+            Id = Guid.NewGuid(),
+            UserId = getUser.Id,
+            Token = _authenticate.generateRefreshtoken(),
+            ExpiresOnUTC = DateTime.UtcNow.AddDays(7)
+        };
+
+        await _authenticate.addRefreshToken(refreshToken);
+
         if (verifyPassword) {
-            //return new LoginResponse ( true, "Login Successfully", GenerateJWTToken(getUser));
-            return new LoginResponse ( true, "Login Successfully", _authenticate.generateToken(getUser));
+            return new LoginResponse ( true, "Login Successfully", accessToken, refreshToken.Token);
         }
         else {
             return new LoginResponse ( false, "Invalid credentials");

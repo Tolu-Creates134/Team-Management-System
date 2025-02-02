@@ -2,7 +2,7 @@ using MediatR;
 using TeamManagementSystem.Application.Common.CurrentUser;
 using TeamManagementSystem.Application.Teams.DTOs;
 using TeamManagementSystem.Domain.Interfaces;
-using TeamManagementSystem.Domain.Models;
+using TeamManagementSystem.Domain.Models.Team;
 
 namespace TeamManagementSystem.Application.Teams.Requests;
 

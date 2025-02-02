@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection.Metadata.Ecma335;
 
-namespace TeamManagementSystem.Domain.Models;
+namespace TeamManagementSystem.Domain.Models.Team;
 
 public class TeamEntity
 {
