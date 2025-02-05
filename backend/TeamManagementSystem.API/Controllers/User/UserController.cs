@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TeamManagementSystem.Application.DTOs;
 using TeamManagementSystem.Application.Users.Commands;
+using TeamManagementSystem.Application.Users.Services;
 
 namespace TeamManagementSystem.API.Controllers
 {
@@ -16,15 +17,15 @@ namespace TeamManagementSystem.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<LoginResponse>> LoginUser(LoginUserCommand command) {
-            var result = await _mediator.Send(command);
+        public async Task<ActionResult<LoginResponse>> LoginUser(LoginUserRequest request) {
+            var result = await _mediator.Send(request);
 
             return Ok(result);
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<RegistrationResponse>> RegisterUser(RegisterUserCommand command) {
-            var result = await _mediator.Send(command);
+        public async Task<ActionResult<RegistrationResponse>> RegisterUser(RegisterUserRequest request) {
+            var result = await _mediator.Send(request);
 
             return Ok(result);
         }

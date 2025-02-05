@@ -5,7 +5,7 @@ using TeamManagementSystem.Application.Common.CurrentUser;
 namespace TeamManagementSystem.Application.Common.Behaviours;
 
 /// <summary>
-/// Token validation behaviour class to check users tokens in claims before making any request
+/// Token validation behaviour class to check users tokens in claims before making handling any request
 /// </summary>
 /// <typeparam name="TRequest"></typeparam>
 /// <typeparam name="TResponse"></typeparam>

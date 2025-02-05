@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TeamManagementSystem.Domain.Models;
@@ -19,19 +20,19 @@ public class Authenticate : IAuthenticate
         _appDbContext = appDbContext;
     }
 
-    public bool checkPassword(string loginPassword, string DBPassword)
+    public bool CheckPassword(string loginPassword, string DBPassword)
     {
         bool checkPassword = BCrypt.Net.BCrypt.Verify(loginPassword, DBPassword);
 
         return checkPassword;
     }
 
-    public string generateRefreshtoken()
+    public string GenerateRefreshtoken()
     {
         return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     }
 
-    public string generateToken(UserEntity user)
+    public string GenerateToken(UserEntity user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -57,14 +58,30 @@ public class Authenticate : IAuthenticate
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
     }
 
-    public async Task addRefreshToken (RefreshTokenEntity refreshToken)
+    public async Task AddRefreshToken (RefreshTokenEntity refreshToken)
     {
         _appDbContext.Refreshtokens!.Add(refreshToken);
         await _appDbContext.SaveChangesAsync();
     }
 
-    public string hashPassword(string password)
+    public string HashPassword(string password)
     {
         return BCrypt.Net.BCrypt.HashPassword(password);
+    }
+
+    public async Task<RefreshTokenEntity?> GetRefreshToken(string refreshToken)
+    {
+        var token = await _appDbContext.Refreshtokens!
+        .Include(r => r.User)
+        .FirstOrDefaultAsync(r => r.Token == refreshToken);
+
+        return token;
+    }
+
+    public async Task UpdateRefreshToken(RefreshTokenEntity refreshToken)
+    {
+        _appDbContext.Refreshtokens!.Update(refreshToken);
+        await _appDbContext.SaveChangesAsync();
+        
     }
 }

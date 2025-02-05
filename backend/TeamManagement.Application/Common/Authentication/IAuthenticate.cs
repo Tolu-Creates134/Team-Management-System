@@ -4,13 +4,17 @@ namespace TeamManagementSystem.Application.Common.Authentication;
 
 public interface IAuthenticate
 {
-    string generateToken(UserEntity user);
+    string GenerateToken(UserEntity user);
 
-    bool checkPassword(string loginPasword, string DBPassword);
+    bool CheckPassword(string loginPasword, string DBPassword);
 
-    string hashPassword(string password);
+    string HashPassword(string password);
 
-    string generateRefreshtoken();
+    string GenerateRefreshtoken();
 
-    Task addRefreshToken (RefreshTokenEntity refreshToken);
+    Task AddRefreshToken (RefreshTokenEntity refreshToken);
+
+    Task UpdateRefreshToken(RefreshTokenEntity refreshToken);
+
+    Task<RefreshTokenEntity?> GetRefreshToken(string refreshToken);
 }

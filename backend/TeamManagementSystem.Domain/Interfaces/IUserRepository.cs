@@ -9,4 +9,6 @@ public interface IUserRepository
 
     Task AddUserAsync(UserEntity user);
 
+    Task UpdateUserAsync(UserEntity user);
+
 }

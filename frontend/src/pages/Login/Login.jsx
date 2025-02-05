@@ -7,7 +7,6 @@ import EmailIcon from '@mui/icons-material/Email';
 import PasswordIcon from '@mui/icons-material/Password';
 import bgImage from '../../assets/bg-loginPage.jpg'
 
-
 const Login = () => {
   return (
     <Box 
@@ -81,8 +80,6 @@ const Login = () => {
                 </Typography>
             </Box>
         </Box>
-
-        
     </Box>
   )
 }
