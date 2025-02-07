@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using TeamManagementSystem.Application.Common.CurrentUser;
 
 namespace TeamManagementSystem.Application.Common.Behaviours;
@@ -22,6 +21,11 @@ public class TokenValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<T
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
+        if (request is ISkipValidation)
+        {
+            return await next();
+        }
+
         if (string.IsNullOrEmpty(_currentUser.Id))
         {
             throw new UnauthorizedAccessException("User is not authenticated.");

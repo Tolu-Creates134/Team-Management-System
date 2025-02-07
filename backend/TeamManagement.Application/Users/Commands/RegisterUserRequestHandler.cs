@@ -1,13 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using MediatR;
 using TeamManagementSystem.Application.Common.Authentication;
+using TeamManagementSystem.Application.Common.Behaviours;
 using TeamManagementSystem.Application.DTOs;
 using TeamManagementSystem.Application.Interfaces;
 using TeamManagementSystem.Domain.Models;
 
 namespace TeamManagementSystem.Application.Users.Services;
 
-public class RegisterUserRequest : IRequest<RegistrationResponse>
+public class RegisterUserRequest : IRequest<RegistrationResponse>, ISkipValidation
 {
     [Required]
     public string? FirstName { get; set;}

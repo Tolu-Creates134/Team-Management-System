@@ -29,5 +29,12 @@ namespace TeamManagementSystem.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("loginWithRefreshToken")]
+        public async Task<ActionResult<RefreshTokenResponse>> RefreshToken(RefreshTokenRequest request) {
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
+
     }
 }

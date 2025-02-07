@@ -1,6 +1,5 @@
 using MediatR;
 using TeamManagementSystem.Application.Common.Authentication;
-using TeamManagementSystem.Application.Interfaces;
 using TeamManagementSystem.Domain.Models;
 
 namespace TeamManagementSystem.Application.Users.Commands;
@@ -12,12 +11,9 @@ public sealed record RefreshTokenResponse (string AccessToken, string RefreshTok
 public sealed  class LoginUserWithRefreshTokenRequestHandler : IRequestHandler<RefreshTokenRequest, RefreshTokenResponse>
 {
     private readonly IAuthenticate _authenticate;
-
-    private readonly IUserRepository _userRepository;
-    public LoginUserWithRefreshTokenRequestHandler (IAuthenticate authenticate, IUserRepository userRepository )
+    public LoginUserWithRefreshTokenRequestHandler (IAuthenticate authenticate)
     {
         _authenticate = authenticate;
-        _userRepository = userRepository;
     }
 
     public async Task<RefreshTokenResponse> Handle(RefreshTokenRequest request, CancellationToken cancellationToken)
