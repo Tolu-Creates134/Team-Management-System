@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Box from '@mui/material/Box';
-import { Typography, TextField, Button, Link } from '@mui/material';
+import { Typography, TextField, Button, FormGroup } from '@mui/material';
+import { Link } from "react-router-dom";
 import './Login.css'
 import InputAdornment from '@mui/material/InputAdornment';
 import EmailIcon from '@mui/icons-material/Email';
@@ -8,6 +9,29 @@ import PasswordIcon from '@mui/icons-material/Password';
 import bgImage from '../../assets/bg-loginPage.jpg'
 
 const Login = () => {
+
+    const emailRef = useRef();
+    const errorRef = useRef();
+
+    const [email, setEmail] = useState('');
+    const [pwd, setPwd] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(false);
+
+    useEffect(() => {
+
+    },[email, pwd])
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setEmail('')
+        setPwd('')
+        console.log(email, pwd)
+        setSuccess(true)
+        console.log(true)
+    }
+
   return (
     <Box 
         className='LoginPage' 
@@ -25,12 +49,23 @@ const Login = () => {
                 Start tracking your teams journey to succes!
             </Typography>
 
-            <Box sx={{ width: '100%', mt: 3, display: 'flex', flexDirection: 'column' }}>
+            <form 
+                style={{ 
+                    width: '100%', 
+                    mt: 3, 
+                    display: 'flex', 
+                    flexDirection: 'column' 
+                }}
+                onSubmit={handleSubmit}
+            >
                 <TextField  
                     label="Email" 
                     type="email" 
                     variant="outlined" 
                     margin="normal"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    required
                     slotProps={{
                         input: {
                           startAdornment: (
@@ -41,12 +76,21 @@ const Login = () => {
                         },
                     }}
                 />
+                <Typography
+                    sx={{
+                        color: 'red'
+                    }}
+                >
+                    {errMsg}
+                </Typography>
 
                 <TextField  
                     label="Password" 
                     type="password" 
                     variant="outlined" 
                     margin="normal"
+                    onChange={(e) => setPwd(e.target.value)}
+                    value={pwd}
                     slotProps={{
                         input: {
                           startAdornment: (
@@ -68,17 +112,18 @@ const Login = () => {
                     variant="contained" 
                     color="primary"  
                     sx={{ mt: 2 }}
+                    type="submit"
                 >
                     Sign In
                 </Button>
 
                 <Typography sx={{ marginTop: '1.5rem' }}>
                     Not yet signed up?{' '}
-                    <Link color="primary" underline="none" sx={{ fontWeight: 'bold' }}>
-                        Sign up here
+                    <Link to="/register" color="primary" underline="none" sx={{ fontWeight: 'bold' }}>
+                        Register here
                     </Link>
                 </Typography>
-            </Box>
+            </form>
         </Box>
     </Box>
   )
