@@ -51,7 +51,7 @@ public class Authenticate : IAuthenticate
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: userClaims,
-            expires: DateTime.Now.AddDays(5),
+            expires: DateTime.Now.AddDays(1),
             signingCredentials: credentials
         );
 

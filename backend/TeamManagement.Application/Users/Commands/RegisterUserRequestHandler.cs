@@ -49,10 +49,10 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest, R
     public async Task<RegistrationResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
     {
         //var getUser = await FindUserByEmail(registerUserDTO.Email!);
-        var getUser = await _userRepository.FindUserByEmailAsync(request.Email!);
+        var existingUser = await _userRepository.FindUserByEmailAsync(request.Email!);
 
-        if (getUser != null) {
-            return new RegistrationResponse(false, "User exists");
+        if (existingUser != null) {
+            throw new ArgumentException("User already exists.");
         }
 
         var newUser = new UserEntity(

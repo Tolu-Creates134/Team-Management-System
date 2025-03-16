@@ -4,11 +4,12 @@ using TeamManagementSystem.Application.DTOs;
 using TeamManagementSystem.Application.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using TeamManagementSystem.Domain.Models;
+using TeamManagementSystem.Application.Common.Behaviours;
 
 
 namespace TeamManagementSystem.Application.Users.Commands;
 
-public class LoginUserRequest : IRequest<LoginResponse>
+public class LoginUserRequest : IRequest<LoginResponse>, ISkipValidation
 {
     [Required, EmailAddress]
     public string Email { get; set;} = string.Empty;
@@ -32,14 +33,15 @@ public class LoginUserRequestHandler : IRequestHandler<LoginUserRequest, LoginRe
     {
         // Get current user entity using their email
         var user = await _userRepository.FindUserByEmailAsync(request.Email!);
-
-        // Check if user exits if not we throw response back to UI 
         if (user == null) {
-            return new LoginResponse ( false, "User does not exist, please try again with correct details.");
+            throw new UnauthorizedAccessException("User does not exist, please try again with correct details."); // Send 401
         }
 
         bool verifyPassword = _authenticate.CheckPassword(request.Password, user.PasswordHash!);
-
+        if (!verifyPassword){
+            throw new UnauthorizedAccessException("Invalid credentials"); // Send 401
+        }
+        
         string accessToken = _authenticate.GenerateToken(user);
 
         var refreshToken = new RefreshTokenEntity
@@ -52,11 +54,6 @@ public class LoginUserRequestHandler : IRequestHandler<LoginUserRequest, LoginRe
 
         await _authenticate.AddRefreshToken(refreshToken);
 
-        if (verifyPassword) {
-            return new LoginResponse ( true, "Login Successfully", accessToken, refreshToken.Token);
-        }
-        else {
-            return new LoginResponse ( false, "Invalid credentials");
-        }
+        return new LoginResponse ( true, "Login Successfully", accessToken, refreshToken.Token);
     }
 }

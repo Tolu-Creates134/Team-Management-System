@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Microsoft.Extensions.DependencyInjection;
 using static TeamManagementSystem.Application.DependencyInjection;
 using static TeamManagementSystem.Infrastructure.DepedencyInjection;
 
@@ -18,6 +15,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
+
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy => policy.WithOrigins("http://localhost:3000") // Allow React frontend
+            .AllowAnyMethod()  // Allow GET, POST, PUT, DELETE, etc.
+            .AllowAnyHeader()  // Allow all headers
+            .AllowCredentials()); // Allow cookies/auth headers if needed
+});
 
 
 var app = builder.Build();
@@ -37,6 +44,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+// Use CORS before other middlewares
+app.UseCors("AllowReactApp");
 
 app.UseAuthentication();
 

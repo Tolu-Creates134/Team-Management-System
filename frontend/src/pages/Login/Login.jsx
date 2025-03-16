@@ -1,22 +1,25 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import Box from '@mui/material/Box';
-import { Typography, TextField, Button, FormGroup } from '@mui/material';
+import { useNavigate } from "react-router-dom"; 
+import { Typography, TextField, Button } from '@mui/material';
 import { Link } from "react-router-dom";
 import './Login.css'
 import InputAdornment from '@mui/material/InputAdornment';
 import EmailIcon from '@mui/icons-material/Email';
 import PasswordIcon from '@mui/icons-material/Password';
 import bgImage from '../../assets/bg-loginPage.jpg'
+import AuthContext from '../../context/AuthProvider';
+import loginUser from '../../services/Users/LoginUser';
 
 const Login = () => {
 
-    const emailRef = useRef();
+    const { setAuth } = useContext(AuthContext)
     const errorRef = useRef();
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
 
@@ -25,11 +28,29 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!email.trim() || !pwd.trim()) {
+            setErrMsg("Email and password are required.");
+            return;
+        }
+        
+        try {
+            const data = await loginUser(email, pwd); // Call API function
+    
+            console.log("Login Successful:", data);
+    
+            // Store tokens in localStorage (or sessionStorage)
+            localStorage.setItem("access_token", data.accessToken);
+            localStorage.setItem("refresh_token", data.refreshToken);
+    
+            // Redirect user to home page after successful login
+            navigate("/home");
+        } catch (error) {
+            alert(error.message); // Show error to user
+        }
+        
         setEmail('')
         setPwd('')
-        console.log(email, pwd)
-        setSuccess(true)
-        console.log(true)
     }
 
   return (
@@ -49,6 +70,7 @@ const Login = () => {
                 Start tracking your teams journey to succes!
             </Typography>
 
+            {/* Form starts here */}
             <form 
                 style={{ 
                     width: '100%', 
@@ -76,13 +98,12 @@ const Login = () => {
                         },
                     }}
                 />
-                <Typography
-                    sx={{
-                        color: 'red'
-                    }}
-                >
-                    {errMsg}
-                </Typography>
+
+                {errMsg && (
+                    <Typography sx={{ color: "red", fontSize: "0.9rem" }} ref={errorRef}>
+                        {errMsg}
+                    </Typography>
+                )}
 
                 <TextField  
                     label="Password" 
