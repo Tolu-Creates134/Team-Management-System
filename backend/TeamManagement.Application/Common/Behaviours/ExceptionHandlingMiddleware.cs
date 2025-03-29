@@ -9,7 +9,7 @@ namespace TeamManagementSystem.Application.Common.Behaviours;
 public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionHandlingMiddleware> _logger ;
+    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
     public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
     {
@@ -30,10 +30,9 @@ public class ExceptionHandlingMiddleware
         }
     }
 
-    private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         context.Response.ContentType = "application/json";
-        var response = context.Response;
 
         var errorResponse = new { message = "An unexpected error occurred." }; // Default response
         var statusCode = HttpStatusCode.InternalServerError; // Default 500
@@ -51,7 +50,7 @@ public class ExceptionHandlingMiddleware
                 break;
 
             default:
-                // _logger.LogError(exception, "Unhandled Exception: {Message}", exception.Message);
+                _logger.LogError(exception, "Unhandled Exception: {Message}", exception.Message);
                 break;
         }
 

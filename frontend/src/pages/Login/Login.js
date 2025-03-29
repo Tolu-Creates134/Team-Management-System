@@ -9,7 +9,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PasswordIcon from '@mui/icons-material/Password';
 import bgImage from '../../assets/bg-loginPage.jpg'
 import AuthContext from '../../context/AuthProvider';
-import loginUser from '../../services/Users/LoginUser';
+import loginUser from '../../services/Users/User';
 
 const Login = () => {
 

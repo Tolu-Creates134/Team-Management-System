@@ -43,9 +43,9 @@ public static class DepedencyInjection
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITeamRepository, TeamRepository>();
         services.AddScoped<IAuthenticate, Authenticate>();
         services.AddScoped<ICurrentUser, CurrentUser>();
-        services.AddScoped<ITeamRepository, TeamRepository>();
 
         return services;
     }

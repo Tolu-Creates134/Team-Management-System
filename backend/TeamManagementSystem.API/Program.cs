@@ -1,3 +1,4 @@
+using TeamManagementSystem.Application.Common.Behaviours;
 using static TeamManagementSystem.Application.DependencyInjection;
 using static TeamManagementSystem.Infrastructure.DepedencyInjection;
 
@@ -42,6 +43,8 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty; // Swagger will be served at the root
     });
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 // Use CORS before other middlewares
