@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using TeamManagementSystem.Application.Common.Interfaces;
 using TeamManagementSystem.Domain.Models;
 using TeamManagementSystem.Infrastructure.Configurations;
 

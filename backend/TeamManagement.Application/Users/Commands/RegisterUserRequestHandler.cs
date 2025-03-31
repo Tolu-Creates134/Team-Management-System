@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using MediatR;
-using TeamManagementSystem.Application.Common.Authentication;
+using TeamManagementSystem.Application.Common.Interfaces;
 using TeamManagementSystem.Application.Common.Behaviours;
+using TeamManagementSystem.Application.Common.Exceptions;
 using TeamManagementSystem.Application.DTOs;
 using TeamManagementSystem.Application.Interfaces;
 using TeamManagementSystem.Domain.Models;
@@ -52,7 +53,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest, R
         var existingUser = await _userRepository.FindUserByEmailAsync(request.Email!);
 
         if (existingUser != null) {
-            throw new ArgumentException("User already exists.");
+            throw new UserAlreadyExistsException(request.Email!);
         }
 
         var newUser = new UserEntity(
@@ -70,6 +71,6 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest, R
 
         await _userRepository.AddUserAsync(newUser);
 
-        return new RegistrationResponse(true, "Registration Completed.", newUser);
+        return new RegistrationResponse(true, "Registration Completed.");
     }
 }

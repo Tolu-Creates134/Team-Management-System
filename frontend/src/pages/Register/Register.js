@@ -8,8 +8,12 @@ import bgImage from '../../assets/bg-loginPage.jpg';
 import './Register.css';
 import { UserRoles } from '../../data/enums/UserRoles';
 import MenuItem from '@mui/material/MenuItem';
+import { registerUser } from '../../services/Users/User';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+
+  const navigate = useNavigate();
 
   // Track register form values
   const [firstName, setFirstName] = useState('');
@@ -20,9 +24,40 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    if (!firstName || !lastName || !userName || !password || !confirmPassword){
+      alert('Please fill in all fields');
+      return
+    }
 
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+    }
 
+    const registerBody = {
+      firstName,
+      lastName,
+      userName,
+      email,
+      password,
+      confirmPassword,
+      role,
+      createdDate: new Date().toISOString(),
+      updatedDate: new Date().toISOString(),
+    };
+
+    try {
+      const response = await registerUser(registerBody);
+      console.log('User Registered', response);
+      alert('Registration successfully');
+      navigate('/')
+    } catch (error) {
+      console.error('Registration failed', error)
+      alert(error.response.data.message)
+    }
+  };
   
   return (
     <Box
@@ -33,23 +68,26 @@ const Register = () => {
         backgroundPosition: 'center',
       }}
     >
-      <Box className='LoginContainer'>
+      <Box className='RegisterContainer'>
         <Typography variant='h5'>Sign up now</Typography>
         <Typography>Start tracking your teams journey to succes!</Typography>
 
-        <Box
-          sx={{
+        <form
+          style={{
             width: '100%',
             mt: 3,
             display: 'flex',
             flexDirection: 'column',
           }}
+          onSubmit={handleSubmit}
         >
           <TextField
             label='First Name'
             type='text'
             variant='outlined'
             margin='normal'
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
 
           <TextField
@@ -57,6 +95,8 @@ const Register = () => {
             type='text'
             variant='outlined'
             margin='normal'
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
 
           <TextField
@@ -64,6 +104,8 @@ const Register = () => {
             type='text'
             variant='outlined'
             margin='normal'
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
           />
 
           <TextField
@@ -73,6 +115,8 @@ const Register = () => {
             defaultValue='Manager'
             helperText='Please select a role'
             variant='filled'
+            onChange={(e) => setRole(e.target.value)}
+            value={role}
           >
             {Object.values(UserRoles).map((role) => (
               <MenuItem key={role} value={role}>
@@ -86,6 +130,8 @@ const Register = () => {
             type='email'
             variant='outlined'
             margin='normal'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             slotProps={{
               input: {
                 startAdornment: (
@@ -102,6 +148,8 @@ const Register = () => {
             type='password'
             variant='outlined'
             margin='normal'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             slotProps={{
               input: {
                 startAdornment: (
@@ -118,6 +166,8 @@ const Register = () => {
             type='password'
             variant='outlined'
             margin='normal'
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             slotProps={{
               input: {
                 startAdornment: (
@@ -129,10 +179,15 @@ const Register = () => {
             }}
           />
 
-          <Button variant='contained' color='primary' sx={{ mt: 2 }}>
+          <Button 
+            variant='contained' 
+            color='primary' 
+            sx={{ mt: 2 }}
+            type="submit"
+          >
             Sign Up
           </Button>
-        </Box>
+        </form>
       </Box>
     </Box>
   );

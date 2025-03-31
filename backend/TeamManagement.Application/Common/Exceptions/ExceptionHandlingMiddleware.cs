@@ -4,7 +4,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace TeamManagementSystem.Application.Common.Behaviours;
+namespace TeamManagementSystem.Application.Common.Exceptions;
 
 public class ExceptionHandlingMiddleware
 {
@@ -49,6 +49,10 @@ public class ExceptionHandlingMiddleware
                 errorResponse = new { message = exception.Message };
                 break;
 
+            case UserAlreadyExistsException:
+                statusCode = HttpStatusCode.Conflict; // 409
+                errorResponse = new { message = exception.Message};
+                break;
             default:
                 _logger.LogError(exception, "Unhandled Exception: {Message}", exception.Message);
                 break;

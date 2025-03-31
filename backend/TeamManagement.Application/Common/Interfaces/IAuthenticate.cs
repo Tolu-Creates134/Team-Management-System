@@ -1,6 +1,6 @@
 using TeamManagementSystem.Domain.Models;
 
-namespace TeamManagementSystem.Application.Common.Authentication;
+namespace TeamManagementSystem.Application.Common.Interfaces;
 
 public interface IAuthenticate
 {

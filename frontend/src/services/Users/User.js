@@ -2,39 +2,43 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+/**
+ * @param {string} email 
+ * @param {string} password 
+ * @returns 
+ */
 const loginUser = async (email, password) => {
-    try {
-        // Send POST request with user credentials
-        const response = await axios.post(`http://localhost:5170/api/user/login`, {
-            email,
-            password,
-        });
-
-        // return data to frontend
-        return response.data;
-    } catch (error) {
-        const status = error.response.status;
-        const message =
-        error.response.data.message || "Login failed. Please try again.";
-
-        if (error.response) {
-        // Checks the status code of error message
-        if (status === 400)
-            throw new Error("Invalid request. Please check your input.");
-        if (status === 401)
-            throw new Error("Unauthorized: Incorrect email or password.");
-        if (status === 500)
-            throw new Error("Server error. Please try again later.");
-
-        throw new Error(message);
-        } else if (error.request) {
-        throw new Error(
-            "No response from server. Please check your internet connection."
-        );
-        } else {
-            throw new Error("An unexpected error occurred.");
-        }
-    }
+    const response = await axios.post(`http://localhost:5170/api/user/login`, {
+        email,
+        password,
+    });
+    return response.data;
 };
 
-export default loginUser;
+export {loginUser};
+
+
+/**
+ * @typedef {Object} RegisterRequest
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} username
+ * @property {string} email
+ * @property {string} password
+ * @property {string} confirmPassword
+ * @property {string} role
+ * @property {string} createdDate
+ * @property {string} updatedDate
+ */
+
+/**
+ * @param {RegisterRequest} body
+ */
+// body represents registerForm details objects
+const registerUser = async (body) => {
+    const response = await axios.post(`http://localhost:5170/api/user/register`, body);
+
+    return response.data
+}
+
+export  {registerUser};

@@ -18,4 +18,11 @@
     <ProjectReference Include="../TeamManagementSystem.Domain/TeamManagementSystem.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common/Configuration/" />
+    <Folder Include="Common/Constants/" />
+    <Folder Include="Common/Helpers/" />
+    <Folder Include="Common/Interfaces/" />
+  </ItemGroup>
+
 </Project>

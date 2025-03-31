@@ -1,4 +1,4 @@
-using TeamManagementSystem.Application.Common.Behaviours;
+using TeamManagementSystem.Application.Common.Exceptions;
 using static TeamManagementSystem.Application.DependencyInjection;
 using static TeamManagementSystem.Infrastructure.DepedencyInjection;
 
