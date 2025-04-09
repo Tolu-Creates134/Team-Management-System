@@ -1,5 +1,5 @@
 using MediatR;
-using TeamManagementSystem.Application.Common.Authentication;
+using TeamManagementSystem.Application.Common.Interfaces;
 using TeamManagementSystem.Domain.Models;
 
 namespace TeamManagementSystem.Application.Users.Commands;

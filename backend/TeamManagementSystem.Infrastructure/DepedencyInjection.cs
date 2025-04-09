@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using TeamManagementSystem.Application.Common.Authentication;
 using TeamManagementSystem.Application.Common.CurrentUser;
+using TeamManagementSystem.Application.Common.Interfaces;
 using TeamManagementSystem.Application.Interfaces;
 using TeamManagementSystem.Domain.Interfaces;
 using TeamManagementSystem.Infrastructure.Authentication;

@@ -33,6 +33,7 @@ public class LoginUserRequestHandler : IRequestHandler<LoginUserRequest, LoginRe
     {
         // Get current user entity using their email
         var user = await _userRepository.FindUserByEmailAsync(request.Email!);
+
         if (user == null) {
             throw new UnauthorizedAccessException("User does not exist, please try again with correct details."); // Send 401
         }
@@ -54,6 +55,6 @@ public class LoginUserRequestHandler : IRequestHandler<LoginUserRequest, LoginRe
 
         await _authenticate.AddRefreshToken(refreshToken);
 
-        return new LoginResponse ( true, "Login Successfully", accessToken, refreshToken.Token);
+        return new LoginResponse ( true, "Login Successfully", accessToken, refreshToken.Token, user.Role!);
     }
 }

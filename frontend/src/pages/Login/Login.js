@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
 import Box from '@mui/material/Box';
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate, Link, useLocation } from "react-router-dom"; 
 import { Typography, TextField, Button } from '@mui/material';
-import { Link } from "react-router-dom";
 import './Login.css'
 import InputAdornment from '@mui/material/InputAdornment';
 import EmailIcon from '@mui/icons-material/Email';
@@ -15,6 +14,7 @@ const Login = () => {
 
     const { setAuth } = useContext(AuthContext)
     const errorRef = useRef();
+
     const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
@@ -38,10 +38,16 @@ const Login = () => {
             const data = await loginUser(email, pwd); // Call API function
     
             console.log("Login Successful:", data);
+
+            const accessToken = data.Token;
+            const refreshToken = data.refreshToken;
     
             // Store tokens in localStorage (or sessionStorage)
-            localStorage.setItem("access_token", data.accessToken);
-            localStorage.setItem("refresh_token", data.refreshToken);
+            localStorage.setItem("access_token", accessToken);
+            localStorage.setItem("refresh_token", refreshToken);
+
+            // set auth
+            setAuth({email, pwd, accessToken})
     
             // Redirect user to home page after successful login
             navigate("/home");
