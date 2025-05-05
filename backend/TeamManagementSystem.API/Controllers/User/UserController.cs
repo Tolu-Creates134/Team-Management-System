@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeamManagementSystem.Application.DTOs;
 using TeamManagementSystem.Application.Users.Commands;
 using TeamManagementSystem.Application.Users.Services;
 

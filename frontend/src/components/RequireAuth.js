@@ -6,9 +6,9 @@ const RequireAuth = () => {
     const { auth } = useAuth();
     const location = useLocation();
   return (
-    auth?.email
-        ? <Outlet/> // represents all the child components of Require Auth
-        : <Navigate to='/' state={{ from: location}} replace/>
+    auth?.accessToken
+      ? <Outlet/> // represents all the child components of Require Auth
+      : <Navigate to='/' state={{ from: location}} replace/>
    
   )
 }

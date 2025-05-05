@@ -3,7 +3,6 @@ using MediatR;
 using TeamManagementSystem.Application.Common.Interfaces;
 using TeamManagementSystem.Application.Common.Behaviours;
 using TeamManagementSystem.Application.Common.Exceptions;
-using TeamManagementSystem.Application.DTOs;
 using TeamManagementSystem.Application.Interfaces;
 using TeamManagementSystem.Domain.Models;
 
@@ -36,6 +35,8 @@ public class RegisterUserRequest : IRequest<RegistrationResponse>, ISkipValidati
 
     public DateTime? UpdatedDate { get; set;}
 }
+
+public record RegistrationResponse (bool Flag, string Message = null!);
 
 public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest, RegistrationResponse>
 {

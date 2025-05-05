@@ -39,20 +39,23 @@ const Login = () => {
     
             console.log("Login Successful:", data);
 
-            const accessToken = data.Token;
+            const accessToken = data.token;
             const refreshToken = data.refreshToken;
+            const firstName = data.firstName;
+            const lastName = data.lastName;
     
             // Store tokens in localStorage (or sessionStorage)
             localStorage.setItem("access_token", accessToken);
             localStorage.setItem("refresh_token", refreshToken);
+            localStorage.setItem("user", JSON.stringify({ email, firstName, lastName }));
 
             // set auth
-            setAuth({email, pwd, accessToken})
+            setAuth({email, accessToken, firstName, lastName})
     
             // Redirect user to home page after successful login
             navigate("/home");
         } catch (error) {
-            alert(error.response.data.message); // Show error to user
+            setErrMsg(error?.response?.data?.message || "Login failed. Please try again.");
         }
         
         setEmail('')
@@ -105,12 +108,6 @@ const Login = () => {
                     }}
                 />
 
-                {errMsg && (
-                    <Typography sx={{ color: "red", fontSize: "0.9rem" }} ref={errorRef}>
-                        {errMsg}
-                    </Typography>
-                )}
-
                 <TextField  
                     label="Password" 
                     type="password" 
@@ -128,6 +125,12 @@ const Login = () => {
                         },
                     }}
                 />
+
+                {errMsg && (
+                    <Typography sx={{ color: "red", fontSize: "0.9rem" }} ref={errorRef}>
+                        {errMsg}
+                    </Typography>
+                )}
 
                 <Typography variant='h7'>
                     <Link underline="none" sx={{ fontWeight: 'bold' }}>

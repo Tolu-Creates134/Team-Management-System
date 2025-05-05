@@ -1,6 +1,5 @@
 using MediatR;
 using TeamManagementSystem.Application.Common.Interfaces;
-using TeamManagementSystem.Application.DTOs;
 using TeamManagementSystem.Application.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using TeamManagementSystem.Domain.Models;
@@ -17,6 +16,17 @@ public class LoginUserRequest : IRequest<LoginResponse>, ISkipValidation
     [Required]
     public string Password { get; set;} = string.Empty;
 }
+
+public record LoginResponse (
+    bool Flag, 
+    string Message = null!, 
+    string Token = null!, 
+    string RefreshToken = null!,
+    string Role = null!,
+    string FirstName = null!,
+    string LastName = null!
+);
+
 
 public class LoginUserRequestHandler : IRequestHandler<LoginUserRequest, LoginResponse>
 {
@@ -40,7 +50,7 @@ public class LoginUserRequestHandler : IRequestHandler<LoginUserRequest, LoginRe
 
         bool verifyPassword = _authenticate.CheckPassword(request.Password, user.PasswordHash!);
         if (!verifyPassword){
-            throw new UnauthorizedAccessException("Invalid credentials"); // Send 401
+            throw new UnauthorizedAccessException("Email or password is invalid"); // Send 401
         }
         
         string accessToken = _authenticate.GenerateToken(user);
@@ -55,6 +65,13 @@ public class LoginUserRequestHandler : IRequestHandler<LoginUserRequest, LoginRe
 
         await _authenticate.AddRefreshToken(refreshToken);
 
-        return new LoginResponse ( true, "Login Successfully", accessToken, refreshToken.Token, user.Role!);
+        return new LoginResponse (
+            true, "Login Successfully", 
+            accessToken, 
+            refreshToken.Token, 
+            user.Role!,
+            user.FirstName!,
+            user.LastName!
+        );
     }
 }

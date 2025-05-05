@@ -5,13 +5,14 @@ import theme from './styles/theme';
 import Register from "./pages/Register/Register";
 import Home from "./pages/Home/Home";
 import RequireAuth from "./components/RequireAuth";
-import Layout from "./components/Layout";
+import LayOut from "./components/LayOut";
+import homeTheme from "./styles/homeTheme";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Layout/>}>
+        <Route path="/" element={<LayOut/>}>
 
           {/* public routes  */}
           <Route path='/' exact element={<Login/>} />
@@ -19,7 +20,14 @@ function App() {
 
           {/* protected routes */}
           <Route element={<RequireAuth/>}>
-            <Route path='/home' exact element={<Home/>}/>
+            <Route 
+              path='/home' 
+              element={
+                <ThemeProvider theme={homeTheme}>
+                  <Home/>
+                </ThemeProvider>
+              }
+            />
           </Route>
 
           {/* create a catch all path 404 page */}
